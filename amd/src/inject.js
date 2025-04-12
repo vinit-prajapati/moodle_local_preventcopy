@@ -16,16 +16,15 @@
 /**
  * Library file for the Prevent Copy plugin.
  *
- * @package     local_preventcopy
  * @copyright   2025 Vinit Prajapati <vinit4ce@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author      Vinit Prajapati
  */
 
-define(['jquery'], function($) {
+define(['jquery'], function ($) {
     return {
-        init: function(jsfragment) {
-            $(document).ready(function() {
+        init: function (jsfragment) {
+            $(document).ready(function () {
                 $('body').prepend(jsfragment);
             });
         }

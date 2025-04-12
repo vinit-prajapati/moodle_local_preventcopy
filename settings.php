@@ -17,10 +17,10 @@
 /**
  * Library file for the Prevent Copy plugin.
  *
- * @package     local_preventcopy
- * @copyright   2025 Vinit Prajapati <vinit4ce@gmail.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Vinit Prajapati
+ * @package   local_preventcopy
+ * @copyright 2025 Vinit Prajapati <vinit4ce@gmail.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Vinit Prajapati
  */
 
 
