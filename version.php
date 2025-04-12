@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version
+ * Library file for the Prevent Copy plugin.
  *
  * @package     local_preventcopy
  * @copyright   2025 Vinit Prajapati <vinit4ce@gmail.com>
@@ -24,10 +24,11 @@
  */
 
 
+
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_preventcopy'; // Full plugin name.
-$plugin->version = 2025032900;        // Plugin version (YYYYMMDDXX).
+$plugin->version = 2025041200;        // Plugin version (YYYYMMDDXX).
 $plugin->requires = 2022112800;       // Requires Moodle 4.0 or later.
 $plugin->maturity = MATURITY_STABLE;  // Plugin maturity level.
-$plugin->release = '1.0';             // Plugin release version.
+$plugin->release = '1.1';             // Plugin release version.

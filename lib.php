@@ -38,7 +38,7 @@ function local_preventcopy_before_standard_html_head() {
     }
 
     // Page URL
-    if(!shouldPreventCopy($PAGE->url->out())){
+    if(!should_prevent_copy($PAGE->url->out())){
         return; // Skip if the page URL is not in the list.
     }
   
@@ -53,7 +53,7 @@ function local_preventcopy_before_standard_html_head() {
     $isteacher = false;
 
     foreach ($roles as $role) {
-        if ($role->shortname === 'student') {
+        if ($role->archetype === 'student') {
             $isstudent = true;
         } else {
             $isteacher = true;
@@ -76,7 +76,7 @@ function local_preventcopy_before_standard_html_head() {
  * @param string $pageurl The page URL to check.
  * @return bool True if the page URL should prevent copy, false otherwise.
  */
-function shouldPreventCopy($pageurl){
+function should_prevent_copy($pageurl){
     $listofpages = get_config('local_preventcopy', 'listofpages');
     $arraylistofpages = preg_split("/\r\n|\n|\r/", $listofpages);
 

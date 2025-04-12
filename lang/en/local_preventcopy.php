@@ -14,6 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Library file for the Prevent Copy plugin.
+ *
+ * @package     local_preventcopy
+ * @copyright   2025 Vinit Prajapati <vinit4ce@gmail.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author      Vinit Prajapati
+ */
+
+
 $string['pluginname'] = 'Prevent Copy';
 $string['preventcopy'] = 'Prevent Copy';
 $string['preventcopy_desc'] = 'This plugin prevents copying for selected roles.';
