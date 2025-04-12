@@ -23,10 +23,6 @@
  * @author      Vinit Prajapati
  */
 
-
-
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Inject JavaScript at the start of the body tag.
  */
@@ -37,13 +33,13 @@ function local_preventcopy_before_standard_html_head() {
         return; // Skip if the user is an admin.
     }
 
-    // Page URL
-    if(!should_prevent_copy($PAGE->url->out())){
+    // Check if the page URL should prevent copy.
+    if (!should_prevent_copy($PAGE->url->out())) {
         return; // Skip if the page URL is not in the list.
     }
-  
+
     // Get the current context (e.g., course or activity context).
-    $context = $PAGE->context; 
+    $context = $PAGE->context;
 
     // Get the roles of the logged-in user in the current context.
     $roles = get_user_roles( $context, $USER->id);
@@ -60,11 +56,11 @@ function local_preventcopy_before_standard_html_head() {
         }
     }
 
-    // pageurl contains /mod/page or /mod/lesson
-    if (    (get_config('local_preventcopy', 'studentrole') == 1  && ($isstudent==1)
-                || 
-            (get_config('local_preventcopy', 'nonstudentrole') == 1) && ($isteacher==1))
-        ) {        
+    // Page URL contains /mod/page or /mod/lesson etc.
+    if (    (get_config('local_preventcopy', 'studentrole') == 1  && ($isstudent == 1)
+                ||
+            (get_config('local_preventcopy', 'nonstudentrole') == 1) && ($isteacher == 1))
+        ) {
         $PAGE->requires->js_call_amd('local_preventcopy/inject', 'init', [get_config('local_preventcopy', 'preventcopyjs')]);
     }
 }
@@ -76,7 +72,7 @@ function local_preventcopy_before_standard_html_head() {
  * @param string $pageurl The page URL to check.
  * @return bool True if the page URL should prevent copy, false otherwise.
  */
-function should_prevent_copy($pageurl){
+function should_prevent_copy($pageurl) {
     $listofpages = get_config('local_preventcopy', 'listofpages');
     $arraylistofpages = preg_split("/\r\n|\n|\r/", $listofpages);
 

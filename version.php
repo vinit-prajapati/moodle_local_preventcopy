@@ -28,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_preventcopy'; // Full plugin name.
-$plugin->version = 2025041200;        // Plugin version (YYYYMMDDXX).
+$plugin->version = 2025041208;        // Plugin version (YYYYMMDDXX).
 $plugin->requires = 2022112800;       // Requires Moodle 4.0 or later.
 $plugin->maturity = MATURITY_STABLE;  // Plugin maturity level.
-$plugin->release = '1.1';             // Plugin release version.
+$plugin->release = '1.4';             // Plugin release version.

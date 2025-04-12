@@ -26,6 +26,14 @@
 
 namespace local_preventcopy\privacy;
 
+/**
+ * Privacy provider for the Prevent Copy plugin.
+ *
+ * This plugin does not store any personal user data.
+ *
+ * @package     local_preventcopy
+ * @category    privacy
+ */
 class provider implements
     // This plugin does not store any personal user data.
     \core_privacy\local\metadata\null_provider {

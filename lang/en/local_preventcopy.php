@@ -23,19 +23,20 @@
  * @author      Vinit Prajapati
  */
 
+$string['listofpages'] = 'List of pages to <b>prevent copy</b>';
+$string['listofpagesdesc'] = 'List of pages to disable right-click, copy, and paste. Enter one URL pattern per line.<br> <b>Note:</b> Enter page URL patterns like: <ul><li>/mod/page</li><li>/mod/lesson</li></ul>';
+
+$string['nonstudentrole'] = 'Non-student role';
+$string['nonstudentroledesc'] = 'Disable right-click, copy, and paste for non-student roles on course pages.';
 
 $string['pluginname'] = 'Prevent Copy';
 $string['preventcopy'] = 'Prevent Copy';
 $string['preventcopy_desc'] = 'This plugin prevents copying for selected roles.';
 
-$string['studentrole'] = 'Student role';
-$string['studentroledesc'] = 'Disable right-click, copy, and paste for students on course pages.';
-
-$string['nonstudentrole'] = 'Non-student role';
-$string['nonstudentroledesc'] = 'Disable right-click, copy, and paste for non-student roles on course pages.';
-
 $string['preventcopyjs'] = 'Prevent Copy JS Fragment';
 $string['preventcopyjsdesc'] = 'Enter JavaScript to prevent right-click, copy/paste, text selection, developer tools, etc.';
 
-$string['listofpages'] = 'List of pages to <b>prevent copy</b>';
-$string['listofpagesdesc'] = 'List of pages to disable right-click, copy, and paste. Enter one URL pattern per line.<br> <b>Note:</b> Enter page URL patterns like: <ul><li>/mod/page</li><li>/mod/lesson</li></ul>';
+$string['studentrole'] = 'Student role';
+$string['studentroledesc'] = 'Disable right-click, copy, and paste for students on course pages.';
+
+

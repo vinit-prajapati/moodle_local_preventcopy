@@ -47,8 +47,8 @@ if ($hassiteconfig) {
             get_string('preventcopyjsdesc', 'local_preventcopy'),
             "<script>
                 document.addEventListener('contextmenu', function (e){e.preventDefault();});
-                document.addEventListener('copy', function (e) {e.preventDefault();});       
-                document.addEventListener('paste', function (e) {e.preventDefault();});  
+                document.addEventListener('copy', function (e) {e.preventDefault();});
+                document.addEventListener('paste', function (e) {e.preventDefault();});
             </script>"
         )
     );
@@ -63,7 +63,7 @@ if ($hassiteconfig) {
         )
     );
 
-    // Disable right click for student
+    // Disable right click for student.
     $settings->add(
         new admin_setting_configcheckbox(
             'local_preventcopy/studentrole',
@@ -73,7 +73,7 @@ if ($hassiteconfig) {
         )
     );
 
-    // Disable right click for non student i.e. teacher,manager etc
+    // Disable right click for non student i.e. teacher,manager etc!
     $settings->add(
         new admin_setting_configcheckbox(
             'local_preventcopy/nonstudentrole',
