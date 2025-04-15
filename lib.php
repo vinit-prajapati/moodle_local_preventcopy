@@ -34,7 +34,7 @@ function local_preventcopy_before_standard_html_head() {
     }
 
     // Check if the page URL should prevent copy.
-    if (!should_prevent_copy($PAGE->url->out())) {
+    if (!local_preventcopy_should_prevent_copy($PAGE->url->out())) {
         return; // Skip if the page URL is not in the list.
     }
 
@@ -72,7 +72,7 @@ function local_preventcopy_before_standard_html_head() {
  * @param string $pageurl The page URL to check.
  * @return bool True if the page URL should prevent copy, false otherwise.
  */
-function should_prevent_copy($pageurl) {
+function local_preventcopy_should_prevent_copy($pageurl) {
     $listofpages = get_config('local_preventcopy', 'listofpages');
     $arraylistofpages = preg_split("/\r\n|\n|\r/", $listofpages);
 

@@ -36,6 +36,8 @@ $string['preventcopy_desc'] = 'This plugin prevents copying for selected roles.'
 $string['preventcopyjs'] = 'Prevent Copy JS Fragment';
 $string['preventcopyjsdesc'] = 'Enter JavaScript to prevent right-click, copy/paste, text selection, developer tools, etc.';
 
+$string['privacy:metadata'] = 'The Prevent Copy plugin does not store any personal data.';
+
 $string['studentrole'] = 'Student role';
 $string['studentroledesc'] = 'Disable right-click, copy, and paste for students on course pages.';
 
