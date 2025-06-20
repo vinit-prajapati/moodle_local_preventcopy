@@ -49,7 +49,7 @@ function local_preventcopy_before_standard_html_head() {
     $isteacher = false;
 
     foreach ($roles as $role) {
-        if ($role->archetype === 'student') {
+        if ($role->shortname === 'student') {
             $isstudent = true;
         } else {
             $isteacher = true;
