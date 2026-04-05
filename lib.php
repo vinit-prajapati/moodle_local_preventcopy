@@ -23,7 +23,5 @@
  * @author      Vinit Prajapati
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 // All hooks are registered via db/hooks.php with class-based callbacks.
 // See classes/hook_callbacks.php for implementation.

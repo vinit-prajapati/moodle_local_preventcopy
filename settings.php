@@ -45,14 +45,16 @@ if ($hassiteconfig) {
             'local_preventcopy/preventcopyjs',
             get_string('preventcopyjs', 'local_preventcopy'),
             get_string('preventcopyjsdesc', 'local_preventcopy'),
-            "<script>
-document.addEventListener('contextmenu', function (e) { e.preventDefault(); return false; });
-document.addEventListener('copy', function (e) { e.preventDefault(); return false; });
-document.addEventListener('paste', function (e) { e.preventDefault(); return false; });
-document.addEventListener('cut', function (e) { e.preventDefault(); return false; });
-document.addEventListener('selectstart', function (e) { e.preventDefault(); return false; });
-document.addEventListener('selectall', function (e) { e.preventDefault(); return false; });
-</script>"
+            "
+            <script>
+            document.addEventListener('contextmenu', function (e) { e.preventDefault(); return false; });
+            document.addEventListener('copy', function (e) { e.preventDefault(); return false; });
+            document.addEventListener('paste', function (e) { e.preventDefault(); return false; });
+            document.addEventListener('cut', function (e) { e.preventDefault(); return false; });
+            document.addEventListener('selectstart', function (e) { e.preventDefault(); return false; });
+            document.addEventListener('selectall', function (e) { e.preventDefault(); return false; });
+            </script>
+            "
         )
     );
 

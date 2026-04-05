@@ -111,6 +111,73 @@ document.addEventListener('selectstart', function (e) { e.preventDefault(); });
 **Example 4: Disable all restrictions (leave empty)**
 Leave the script configuration empty or remove all code to disable the plugin without uninstalling it.
 
+**Example 5: Complete block, event in TinyMCE editor**
+```javascript
+<script>
+(() => {
+
+  const blockedEvents = ['copy','cut','paste','contextmenu','dragover','drop'];
+  const blockedKeys = ['c','v','x','a'];
+  const blockedCommands = ['Copy','Paste','Cut','SelectAll'];
+
+  // Global protection
+  blockedEvents.forEach(evt =>
+    document.addEventListener(evt, e => e.preventDefault())
+  );
+
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && blockedKeys.includes(e.key.toLowerCase())) {
+      e.preventDefault();
+    }
+  });
+
+  // TinyMCE protection
+  const setupEditor = editor => {
+    editor.on('init', () => {
+
+      const doc = editor.getDoc();
+      if (!doc) return;
+
+      blockedEvents.forEach(evt =>
+        doc.addEventListener(evt, e => {
+          e.preventDefault();
+          e.stopPropagation();
+        })
+      );
+
+      doc.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && blockedKeys.includes(e.key.toLowerCase())) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+
+      editor.on('BeforeExecCommand', e => {
+        if (blockedCommands.includes(e.command)) {
+          e.preventDefault();
+        }
+      });
+
+    });
+  };
+
+  // Wait for TinyMCE
+  const init = () => {
+    if (typeof tinymce === 'undefined') {
+      return setTimeout(init, 500);
+    }
+
+    tinymce.editors?.forEach(setupEditor);
+
+    tinymce.on('AddEditor', e => setupEditor(e.editor));
+  };
+
+  init();
+
+})();
+</script>
+```
+
 ## Common Use Cases
 
 ### Protecting Exam Content
