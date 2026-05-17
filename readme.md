@@ -30,30 +30,161 @@ You'll see these settings:
 - Check "**Teachers & Staff**" to also protect content from teachers, managers, and other staff members
 - Note: Site administrators are never restricted
 
-### Step 2: Choose Which Pages to Protect
+### Step 2: Choose What to Protect
 
-In the "**List of pages to protect**" field, enter the pages you want to protect. Type one page per line.
+The plugin supports protection at multiple levels:
 
-**Common page examples:**
+
+- Course categories
+- Individual courses
+- Activity/resource types
+- Specific activities/resources using Course Module IDs (CMIDs)
+
+
+
+---
+
+### Course Category Protection
+
+**Course Category IDs**
+- Enter Moodle course category IDs separated by commas
+- Use `*` to protect all categories
+
+Example:
+```text
+1,3,7
 ```
-/mod/lesson
-/mod/page
-/mod/quiz
-/course/view
-/mod/assign
+
+---
+
+### Course Protection
+
+**Course IDs**
+- Enter Moodle course IDs separated by commas
+- Use `*` to protect all courses
+
+Example:
+```text
+2,5,10
 ```
 
-You can also use specific course IDs:
+---
+
+### Activity Protection
+
+Each activity/resource setting accepts:
+
+- Specific Course Module IDs (CMIDs)
+- Multiple CMIDs separated by commas
+- `*` to protect all activities/resources of that type
+
+#### Quiz
+```text
+*
 ```
-course=5
-course=10
+Protect all quizzes
+
+```text
+12,15,20
+```
+Protect only specific quizzes
+
+---
+
+#### Assignment
+```text
+*
+```
+Protect all assignments
+
+```text
+8,11
+```
+Protect only specific assignments
+
+---
+
+#### Lesson
+```text
+*
+```
+Protect all lessons
+
+```text
+21,25
+```
+Protect only specific lessons
+
+---
+
+### Resource Protection
+
+#### Page
+```text
+*
+```
+Protect all page resources
+
+```text
+30,35
+```
+Protect only specific pages
+
+---
+
+#### Book
+```text
+*
+```
+Protect all book resources
+
+```text
+40,45
+```
+Protect only specific books
+
+---
+
+### Common Module IDs
+
+**Common Module ID**
+- Protect specific activities/resources regardless of type
+- Accepts CMIDs separated by commas
+- Use `*` to protect all modules
+
+Example:
+```text
+50,55,60
 ```
 
-**How it works:** The plugin checks if the page URL contains your pattern. For example:
-- Pattern: `/mod/page` will protect any page module
-- Pattern: `/mod/lesson` will protect any lesson module
-- Pattern: `course=5` will protect all pages in course with ID 5
+---
 
+### How to Find a CMID
+
+Open the activity/resource in Moodle and check the URL.
+
+Example:
+```text
+http://sitedomain.com/mod/quiz/view.php?id=25
+```
+
+Here:
+```text
+25
+```
+
+is the Course Module ID (CMID).
+
+---
+
+### Priority Order
+
+Protection is applied in this order:
+
+1. Course Category
+2. Course
+3. Activity/Resource Type
+4. Common Module IDs
 ### Step 3: Configure What Actions to Block
 
 In the "**Script Configuration**" field, you'll see code that controls what users cannot do. The default code blocks:
@@ -263,17 +394,46 @@ When protection is active:
 
 ## Troubleshooting
 
-### The restrictions aren't working on my pages
+### Protection is not working
 
-1. Check that the page URL contains your pattern:
-   - If pattern is `/mod/lesson`, the full URL must contain `/mod/lesson`
+1. Verify the plugin is enabled for the correct user roles
+2. Check that the configured Course ID, Category ID, or CMID is correct
+3. Purge Moodle caches:
+   ```
+   Site Administration > Development > Purge caches
+   ```
+4. Refresh the browser page
 
-2. Clear your browser cache and refresh the page
+---
 
-3. Verify the user's role is enabled:
-   - If you only enabled "Students", teachers won't be restricted
+### How to Find IDs
 
-4. Check if you're logged in as a site administrator - they are never restricted
+#### Course ID
+Example:
+```text
+/course/view.php?id=5
+```
+
+#### Course Category ID
+Example:
+```text
+/course/index.php?categoryid=3
+```
+
+#### Course Module ID (CMID)
+Example:
+```text
+/mod/quiz/view.php?id=25
+```
+
+---
+
+### TinyMCE editor still allows copy/paste
+
+1. Refresh the page
+2. Purge Moodle caches
+3. Verify the JavaScript configuration includes TinyMCE protection
+
 
 ### Users are still able to copy
 
@@ -288,4 +448,5 @@ Leave the "List of pages to protect" field empty - the plugin will be inactive w
 ## Support & Feedback
 
 For issues or feature requests, please visit the plugin repository or contact your Moodle administrator.
+
 
