@@ -58,15 +58,127 @@ if ($hassiteconfig) {
         )
     );
 
-    // Allow all on following pages.
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Course settings.
     $settings->add(
-        new admin_setting_configtextarea(
-            'local_preventcopy/listofpages',
-            get_string('listofpages', 'local_preventcopy'),
-            get_string('listofpagesdesc', 'local_preventcopy'),
+        new admin_setting_heading(
+            'local_preventcopy/courseheading',
+            'Course Restrictions',
+            'Configure protection for specific courses or course categories.'
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/categoryids',
+            'Course Category IDs',
+            'Enter Course Category IDs separated by commas. Example: 1,3,7. Use * to protect all categories.',
             ''
         )
     );
+
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/courseids',
+            'Course IDs',
+            'Enter Course IDs separated by commas. Example: 2,5,10. Use * to protect all courses.',
+            ''
+        )
+    );
+
+    // Activity settings.
+    $settings->add(
+        new admin_setting_heading(
+            'local_preventcopy/activityheading',
+            'Activity Restrictions',
+            'Configure protection for Moodle activities. Use Course Module IDs (CMIDs). Use * to block all instances.'
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/quizcmids',
+            'Quiz',
+            'Enter Quiz CMIDs separated by commas. Example: 12,15,20. Use * to block all quizzes.',
+            ''
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/assigncmids',
+            'Assignment',
+            'Enter Assignment CMIDs separated by commas. Example: 8,11. Use * to block all assignments.',
+            ''
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/forumcmids',
+            'Forum',
+            'Enter Forum CMIDs separated by commas. Example: 21,25. Use * to block all forums.',
+            ''
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/lessoncmids',
+            'Lesson',
+            'Enter Lesson CMIDs separated by commas. Example: 21,25. Use * to block all lessons.',
+            ''
+        )
+    );
+
+    // Resource settings.
+    $settings->add(
+        new admin_setting_heading(
+            'local_preventcopy/resourceheading',
+            'Resource Restrictions',
+            'Configure protection for Moodle resources. Use Course Module IDs (CMIDs). Use * to block all instances.'
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/pagecmids',
+            'Page',
+            'Enter Page CMIDs separated by commas. Example: 30,35. Use * to block all pages.',
+            ''
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/bookcmids',
+            'Book',
+            'Enter Book CMIDs separated by commas. Example: 40,45. Use * to block all books.',
+            ''
+        )
+    );
+
+    // Other settings.
+    $settings->add(
+        new admin_setting_heading(
+            'local_preventcopy/otherheading',
+            'Other Restrictions',
+            'Configure common protection rules.'
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_preventcopy/commoncmids',
+            'Common Module ID',
+            'Enter CMIDs separated by commas to apply protection regardless of activity/resource type. Example: 50,55,60. Use * to block all modules.',
+            ''
+        )
+    );
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
     // Disable right click for student.
     $settings->add(

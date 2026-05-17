@@ -115,60 +115,88 @@ Leave the script configuration empty or remove all code to disable the plugin wi
 ```javascript
 <script>
 (() => {
+const setupEditor = editor => {
 
-  const blockedEvents = ['copy','cut','paste','contextmenu','dragover','drop'];
-  const blockedKeys = ['c','v','x','a'];
-  const blockedCommands = ['Copy','Paste','Cut','SelectAll'];
-
-  // Global protection
-  blockedEvents.forEach(evt =>
-    document.addEventListener(evt, e => e.preventDefault())
-  );
-
-  document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && blockedKeys.includes(e.key.toLowerCase())) {
-      e.preventDefault();
-    }
-  });
-
-  // TinyMCE protection
-  const setupEditor = editor => {
     editor.on('init', () => {
 
       const doc = editor.getDoc();
       if (!doc) return;
 
+      // Native iframe events
       blockedEvents.forEach(evt =>
         doc.addEventListener(evt, e => {
           e.preventDefault();
+          e.stopImmediatePropagation();
           e.stopPropagation();
-        })
+          return false;
+        }, true)
       );
 
+      // Keyboard shortcuts
       doc.addEventListener('keydown', e => {
-        if ((e.ctrlKey || e.metaKey) && blockedKeys.includes(e.key.toLowerCase())) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      });
 
-      editor.on('BeforeExecCommand', e => {
+        const key = e.key.toLowerCase();
+
+        if (
+          (e.ctrlKey || e.metaKey) &&
+          blockedKeys.includes(key)
+        ) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          return false;
+        }
+
+      }, true);
+
+      // TinyMCE internal commands
+      editor.on('ExecCommand', e => {
+
         if (blockedCommands.includes(e.command)) {
           e.preventDefault();
+          return false;
         }
+
       });
 
-    });
-  };
+      // TinyMCE paste pipeline
+      editor.on('Paste PrePaste postpaste paste', e => {
+        e.preventDefault();
+        return false;
+      });
 
-  // Wait for TinyMCE
+      // TinyMCE copy/cut
+      editor.on('Copy Cut', e => {
+        e.preventDefault();
+        return false;
+      });
+
+      // Block clipboard API
+      if (navigator.clipboard) {
+
+        navigator.clipboard.writeText = async () => {
+          throw new Error('Clipboard disabled');
+        };
+
+        navigator.clipboard.readText = async () => {
+          throw new Error('Clipboard disabled');
+        };
+      }
+
+    });
+};
+  // ✅ Wait safely (NO PreInit)
   const init = () => {
     if (typeof tinymce === 'undefined') {
       return setTimeout(init, 500);
     }
 
-    tinymce.editors?.forEach(setupEditor);
+  // Existing editors
+  if (tinymce.editors && tinymce.editors.length) {
+    tinymce.editors.forEach(setupEditor);
+    }
 
+    // Future editors (important for Moodle)
     tinymce.on('AddEditor', e => setupEditor(e.editor));
   };
 
