@@ -243,39 +243,86 @@ document.addEventListener('selectstart', function (e) { e.preventDefault(); });
 Leave the script configuration empty or remove all code to disable the plugin without uninstalling it.
 
 **Example 5: Complete block, event in TinyMCE editor**
+This also include standard blocked events. Just copy below content
 ```javascript
 <script>
 (() => {
-const setupEditor = editor => {
+
+  const blockedEvents = [
+    'copy',
+    'cut',
+    'paste',
+    'contextmenu',
+    'dragover',
+    'drop'
+  ];
+
+  const blockedKeys = ['c', 'v', 'x', 'a'];
+
+  const blockedCommands = [
+    'Copy',
+    'Paste',
+    'Cut',
+    'SelectAll'
+  ];
+
+  // Global page protection
+  blockedEvents.forEach(evt => {
+    document.addEventListener(evt, e => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return false;
+    }, true);
+  });
+
+  document.addEventListener('keydown', e => {
+
+    if (
+      (e.ctrlKey || e.metaKey) &&
+      blockedKeys.includes(e.key.toLowerCase())
+    ) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return false;
+    }
+
+  }, true);
+
+  // TinyMCE protection
+  const setupEditor = editor => {
 
     editor.on('init', () => {
 
       const doc = editor.getDoc();
-      if (!doc) return;
+      const body = editor.getBody();
 
-      // Native iframe events
-      blockedEvents.forEach(evt =>
-        doc.addEventListener(evt, e => {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          e.stopPropagation();
-          return false;
-        }, true)
-      );
+      if (!doc || !body) {
+        return;
+      }
 
-      // Keyboard shortcuts
-      doc.addEventListener('keydown', e => {
+      // Block iframe/native events
+      blockedEvents.forEach(evt => {
 
-        const key = e.key.toLowerCase();
+        doc.addEventListener(evt, blockEvent, true);
+        body.addEventListener(evt, blockEvent, true);
+
+      });
+
+      // Block keyboard shortcuts
+      doc.addEventListener('keydown', blockKeys, true);
+      body.addEventListener('keydown', blockKeys, true);
+
+      // Block beforeinput (important)
+      doc.addEventListener('beforeinput', e => {
 
         if (
-          (e.ctrlKey || e.metaKey) &&
-          blockedKeys.includes(key)
+          e.inputType &&
+          (
+            e.inputType.includes('paste') ||
+            e.inputType.includes('insertFromPaste')
+          )
         ) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          e.stopPropagation();
-          return false;
+          blockEvent(e);
         }
 
       }, true);
@@ -283,7 +330,9 @@ const setupEditor = editor => {
       // TinyMCE internal commands
       editor.on('ExecCommand', e => {
 
-        if (blockedCommands.includes(e.command)) {
+        if (
+          blockedCommands.includes(e.command)
+        ) {
           e.preventDefault();
           return false;
         }
@@ -291,44 +340,68 @@ const setupEditor = editor => {
       });
 
       // TinyMCE paste pipeline
-      editor.on('Paste PrePaste postpaste paste', e => {
-        e.preventDefault();
-        return false;
-      });
-
-      // TinyMCE copy/cut
-      editor.on('Copy Cut', e => {
-        e.preventDefault();
-        return false;
-      });
-
-      // Block clipboard API
-      if (navigator.clipboard) {
-
-        navigator.clipboard.writeText = async () => {
-          throw new Error('Clipboard disabled');
-        };
-
-        navigator.clipboard.readText = async () => {
-          throw new Error('Clipboard disabled');
-        };
-      }
+      editor.on(
+        'Paste PrePaste postpaste paste Copy Cut BeforeExecCommand',
+        e => {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      );
 
     });
-};
-  // ✅ Wait safely (NO PreInit)
+
+  };
+
+  // Generic event blocker
+  const blockEvent = e => {
+
+    e.preventDefault();
+
+    e.stopPropagation();
+
+    e.stopImmediatePropagation();
+
+    return false;
+
+  };
+
+  // Keyboard blocker
+  const blockKeys = e => {
+
+    if (
+      (e.ctrlKey || e.metaKey) &&
+      blockedKeys.includes(e.key.toLowerCase())
+    ) {
+
+      e.preventDefault();
+
+      e.stopPropagation();
+
+      e.stopImmediatePropagation();
+
+      return false;
+    }
+
+  };
+
+  // Wait for TinyMCE
   const init = () => {
+
     if (typeof tinymce === 'undefined') {
       return setTimeout(init, 500);
     }
 
-  // Existing editors
-  if (tinymce.editors && tinymce.editors.length) {
-    tinymce.editors.forEach(setupEditor);
+    // Existing editors
+    if (tinymce.editors && tinymce.editors.length) {
+      tinymce.editors.forEach(setupEditor);
     }
 
-    // Future editors (important for Moodle)
-    tinymce.on('AddEditor', e => setupEditor(e.editor));
+    // Future editors
+    tinymce.on('AddEditor', e => {
+      setupEditor(e.editor);
+    });
+
   };
 
   init();
